@@ -71,7 +71,7 @@
         <c:forEach items="${municipio.playas}" var="playa">
           <div class="col-sm-12 col-md-4 col-lg-3 mb-3">
             <div class="card h-100">
-              <img class="card-img-top" src="img/ImgPlayas/${playa.images[0]}_${playa.id}.jpg" alt="Title" />
+              <img class="card-img-top" src="img/ImgPlayas/${playa.id}_${playa.images[0].id}.jpg" alt="Title" />
               <div class="card-body">
                 <h4 class="card-title">${playa.nombre}</h4>
                 <p class="card-text">${playa.descripcion}</p>
