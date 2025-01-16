@@ -63,4 +63,12 @@ public class Punto implements Serializable {
 		this.usuarioBean = usuarioBean;
 	}
 
+	@Override
+	public String toString() {
+		return "Punto [id=" + id + ", puntos=" + puntos + ", playaBean=" + playaBean + ", usuarioBean=" + usuarioBean
+				+ "]";
+	}
+	
+	
+
 }

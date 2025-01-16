@@ -31,7 +31,7 @@ public class Playa implements Serializable {
 	private Municipio municipioBean;
 
 	//bi-directional many-to-one association to Punto
-	@OneToMany(mappedBy="playaBean")
+	@OneToMany(mappedBy="playaBean", fetch = FetchType.EAGER)
 	private List<Punto> puntos;
 
 	public Playa() {
