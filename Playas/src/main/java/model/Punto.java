@@ -68,7 +68,8 @@ public class Punto implements Serializable {
 		return "Punto [id=" + id + ", puntos=" + puntos + ", playaBean=" + playaBean + ", usuarioBean=" + usuarioBean
 				+ "]";
 	}
+
 	
-	
+
 
 }

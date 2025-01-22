@@ -10,13 +10,18 @@ import jakarta.servlet.http.HttpSession;
 import model.Ccaa;
 import model.Municipio;
 import model.Provincia;
+import model.PuntoView;
+import model.Usuario;
+import util.Hash;
 
 import java.io.IOException;
 import java.util.List;
 
 import daos.DAOCcaa;
 import daos.DAOMunicipio;
+import daos.DAOPlaya;
 import daos.DAOProvincia;
+import daos.DaoUsuario;
 
 /**
  * Servlet implementation class ControllerAdmin
@@ -79,6 +84,52 @@ public class ControllerAdmin extends HttpServlet {
 			session.setAttribute("municipio", municipioSeleccionado);
 			request.getRequestDispatcher("home.jsp").forward(request, response);
 			
+			break;
+			
+		case "login":
+			
+			String email = request.getParameter("email");
+			String clave = request.getParameter("clave");
+			
+			Usuario usuario = DaoUsuario.getUsuario(email);
+			
+			if (usuario!=null) { //si hay un usuario registrado con ese email
+				//compruebo si la clave es correcta
+				if(usuario.getPass().equals(Hash.getSha256(clave))) {
+					//guardo el objeto usuario dentro de la session
+					session.setAttribute("usuario", usuario);
+				}
+				else {
+					//quitar el usuario de la session
+					session.removeAttribute("usuario");
+				}
+			} else {//si no está el usuario registrado
+				//aquí tendríamos que enviar un email de registro, etc
+				usuario = new Usuario();
+				usuario.setNick(email);
+				usuario.setPass(Hash.getSha256(clave));
+				DaoUsuario.insertarUsuario(usuario);
+				session.setAttribute("usuario", usuario);
+			}
+			request.getRequestDispatcher("home.jsp").forward(request, response);
+			
+			
+			break;
+			
+		case "logout":{
+			session.removeAttribute("usuario");
+			request.getRequestDispatcher("home.jsp").forward(request, response);
+			break;
+		}
+		
+		case "puntuacion":
+			
+			int idPlaya = Integer.parseInt(request.getParameter("idplaya"));
+			
+			List<PuntoView> puntuaciones = DAOPlaya.getPuntos(idPlaya);
+			
+			request.setAttribute("puntuaciones", puntuaciones);
+			request.getRequestDispatcher("puntuaciones.jsp").forward(request, response);		
 			break;
 			
 		}

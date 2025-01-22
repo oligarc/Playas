@@ -61,7 +61,17 @@
               </form>
           </div>
           <div class="col text-end">
-  			<button class="btn btn-primary" onclick="#">Login</button>
+          <c:choose>
+                        <c:when test="${usuario==null}">
+                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modallogin">Login</button>
+                        </c:when>
+                        <c:otherwise>
+                            <span class="text-black">Welcome ${usuario.nick}</span>
+                            <a href="ControllerAdmin?operacion=logout" class="btn btn-success">Logout</a>
+                        </c:otherwise>
+                        
+                    </c:choose>
+  			
 			</div>
         </div>
       </div>
@@ -77,17 +87,20 @@
               <div class="card-body">
                 <h4 class="card-title">${playa.nombre}</h4>
                 <p class="card-text">${playa.descripcion}</p>
+                <c:if test="${usuario!=null}">
                 <div class="d-flex justify-content-between align-items-center">
                   <a href="#" class="text-decoration-none" 
    					data-bs-toggle="modal" 
-   					data-bs-target="#infoModal"
-   					onclick="setPlayaInfo('${playa.nombre}', '${playa.puntos}')">
+   					data-bs-target="#modalinfo"
+   					data-bs-nombreplaya="${playa.nombre}"
+   					data-bs-idplaya="${playa.id}">
                     <i class="bi bi-info-circle"></i>
                   </a>
                   <a href="#" class="text-decoration-none">
                     <i class="bi bi-star"></i>
                   </a>
                 </div>
+                </c:if>
               </div>
             </div>
           </div>
@@ -131,48 +144,25 @@
           </div>
         </div>
     
-    <div class="modal fade" id="infoModal" tabindex="-1" aria-labelledby="infoModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="infoModalLabel">Calificación de la playa</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-      <h5 id="playaName"></h5> <!-- Aquí va el nombre de la playa con la función del script -->
-        <table class="table">
-          <thead>
-            <tr>
-            </tr>
-          </thead>
-          <tbody id="puntosList">
-            
-            <tr class="table-light">
-              <td><img src="img/ImgCaritas/ic_1.png" alt="Punto 1" width="50" height="50" /></td>
-              <td id="voto1"></td>
-            </tr>
-            <tr class="table-dark">
-              <td><img src="img/ImgCaritas/ic_2.png" alt="Punto 2" width="50" height="50" /></td>
-              <td id="voto2"></td> 
-            </tr>
-            <tr class="table-light">
-              <td><img src="img/ImgCaritas/ic_3.png" alt="Punto 3" width="50" height="50" /></td>
-              <td id="voto3"></td>
-            </tr>
-            <tr class="table-dark">
-              <td><img src="img/ImgCaritas/ic_4.png" alt="Punto 4" width="50" height="50" /></td>
-              <td id="voto4"></td>
-            </tr>
-            <tr class="table-light">
-              <td><img src="img/ImgCaritas/ic_5.png" alt="Punto 5" width="50" height="50" /></td>
-              <td id="voto5"></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+    <div class="modal fade" id="modalinfo" tabindex="-1" role="dialog" aria-labelledby="modelTitleId"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <h3 class="modal-title bg-dark text-success text-center">Calificación de la playa</h3>
+                <div class="modal-header">
+                    <h4 class="text-success">
+                        <!-- Nombre playa -->
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <!-- se rellena con ajax -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
-</div>
 
     <script
       src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
@@ -185,6 +175,8 @@
       integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
       crossorigin="anonymous"
     ></script>
+    
+    <script type="text/javascript" src="js/js.js"></script>
     
     <script>
  function setPlayaInfo(nombre, puntos) {
