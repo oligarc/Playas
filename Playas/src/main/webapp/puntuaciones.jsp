@@ -5,7 +5,7 @@
   <tbody>
       <c:forEach items="${puntuaciones}" var="puntoview">
           <tr>
-            <td><img src="img/ImgCaritas/ic_${puntoview.punto}.png" alt=""></td>
+            <td><img src="img/ImgCaritas/ic_${puntoview.punto}.png" width="20%"></td>
             <td>${puntoview.cuenta}</td>
           </tr>          
       </c:forEach>
